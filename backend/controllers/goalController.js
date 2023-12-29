@@ -1,11 +1,12 @@
 const asyncHandler = require('express-async-handler');
 const statusCode = require('../enums/statusCode');
 const Goal = require('../model/goalModel');
+const User = require('../model/userModel');
 // @desc Get goals
 // @route GET /api/goals
 // @access Private
 const getGoals = asyncHandler(async( req, res ) => {
-    const goals = await Goal.find();
+    const goals = await Goal.find({user: req.user.id});
     res.status(statusCode.SUCCESS).json(goals);
 })
 
@@ -18,7 +19,7 @@ const createGoal = asyncHandler(async(req,res)=> {
         res.status(statusCode.BAD_REQUEST)
         throw new Error('Please add the text valid')
     }
-    const goal = await Goal.create({ text:  req.body.text});
+    const goal = await Goal.create({ text:  req.body.text, user: req.user.id});
     res.status(statusCode.CREATED).json(goal)
 })
 
@@ -30,6 +31,13 @@ const updateGoal = asyncHandler(async(req,res)=>{
     if(!goal){
         res.status(statusCode.BAD_REQUEST);
         throw new Error('Goal doesn\'t exists')
+    }
+    const user = await User.findById(req.user.id);
+
+    //Check for user & the user matches with the goal user
+    if(!user || user.id !== goal.user.toString()){
+        res.status(statusCode.NOT_AUTHORIZED);
+        throw new Error('Not Authorized');
     }
     const updatedGoal = await Goal.findByIdAndUpdate(req.params.id,req.body,{ new : true})
     res.status(statusCode.SUCCESS).json(updatedGoal)
@@ -43,6 +51,13 @@ const deleteGoal = asyncHandler(async(req,res)=>{
     if(!goal){
         res.status(statusCode.BAD_REQUEST);
         throw new Error('Goal doesn\'t exists')
+    }
+    const user = await User.findById(req.user.id);
+
+    //Check for user & the user matches with the goal user
+    if(!user || user.id !== goal.user.toString()){
+        res.status(statusCode.NOT_AUTHORIZED);
+        throw new Error('Not Authorized');
     }
     const filter = { _id: req.params.id};
     await Goal.deleteOne(filter)
