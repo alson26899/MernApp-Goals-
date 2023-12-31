@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/MernApp-Goals-/static/css/main.17a98f4c.css",
+    "main.js": "/MernApp-Goals-/static/js/main.ac71707e.js",
+    "static/js/787.9e9f4ffd.chunk.js": "/MernApp-Goals-/static/js/787.9e9f4ffd.chunk.js",
+    "index.html": "/MernApp-Goals-/index.html",
+    "main.17a98f4c.css.map": "/MernApp-Goals-/static/css/main.17a98f4c.css.map",
+    "main.ac71707e.js.map": "/MernApp-Goals-/static/js/main.ac71707e.js.map",
+    "787.9e9f4ffd.chunk.js.map": "/MernApp-Goals-/static/js/787.9e9f4ffd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.17a98f4c.css",
+    "static/js/main.ac71707e.js"
+  ]
+}
